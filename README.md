@@ -60,7 +60,7 @@ Pick one. All of them end with tachobar set as your Claude Code status line
 ### 1. As a Claude Code plugin (easiest)
 
 ```
-/plugin marketplace add DrFritzi/tachobar
+/plugin marketplace add PatrickPirchheim/tachobar
 /plugin install tachobar@tachobar
 /tachobar:setup EUR
 ```
@@ -72,7 +72,7 @@ the binary for your OS, writes the `statusLine` setting and sets the currency
 ### 2. macOS / Linux
 
 ```sh
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/DrFritzi/tachobar/releases/latest/download/tachobar-installer.sh | sh
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/PatrickPirchheim/tachobar/releases/latest/download/tachobar-installer.sh | sh
 tachobar --init --write
 ```
 
@@ -84,7 +84,7 @@ nothing but `tachobar.exe` is installed:
 ```powershell
 $arch = if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') { 'aarch64' } else { 'x86_64' }
 $name = "tachobar-$arch-pc-windows-msvc.zip"
-$url  = "https://github.com/DrFritzi/tachobar/releases/latest/download/$name"
+$url  = "https://github.com/PatrickPirchheim/tachobar/releases/latest/download/$name"
 $zip  = "$env:TEMP\$name"
 $dir  = "$env:LOCALAPPDATA\Programs\tachobar"
 Invoke-WebRequest $url -OutFile $zip -UseBasicParsing
@@ -102,7 +102,7 @@ installer: Microsoft Defender blocks that command pattern.)
 ### 4. From source (any platform, needs Rust 1.85+)
 
 ```sh
-cargo install --git https://github.com/DrFritzi/tachobar --locked
+cargo install --git https://github.com/PatrickPirchheim/tachobar --locked
 tachobar --init --write
 ```
 
@@ -115,7 +115,7 @@ tachobar doctor
 prints the version, config location, price and exchange-rate sources and
 their age, and whether `settings.json` points at tachobar. Every release file
 has build provenance you can verify with
-`gh attestation verify <file> --repo DrFritzi/tachobar`, and a `.sha256`.
+`gh attestation verify <file> --repo PatrickPirchheim/tachobar`, and a `.sha256`.
 
 ### What `--init` writes
 

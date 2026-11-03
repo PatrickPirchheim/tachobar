@@ -5,10 +5,10 @@
   "description": "Status line with accurate session cost (cache tiers, subagents), context usage and burn rate in any currency. Run /tachobar:setup after installing.",
   "author": {
     "name": "DrFritzi",
-    "url": "https://github.com/DrFritzi"
+    "url": "https://github.com/PatrickPirchheim"
   },
-  "homepage": "https://github.com/DrFritzi/tachobar",
-  "repository": "https://github.com/DrFritzi/tachobar",
+  "homepage": "https://github.com/PatrickPirchheim/tachobar",
+  "repository": "https://github.com/PatrickPirchheim/tachobar",
   "license": "MIT",
   "keywords": [
     "statusline",
