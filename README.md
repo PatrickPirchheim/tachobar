@@ -176,7 +176,7 @@ stale_days = 7                       # warn when prices or rates are older than 
 | --------- | ---------------------------------------------------------------------------------------------- |
 | `dir`     | Name of the current directory                                                                  |
 | `model`   | Model display name, colored by its output price                                                |
-| `effort`  | Reasoning effort, from Claude Code, then `CLAUDE_EFFORT_LEVEL`, then `effortLevel` in settings |
+| `effort`  | Reasoning effort, from Claude Code, then `CLAUDE_CODE_EFFORT_LEVEL`, then `effortLevel` in settings |
 | `price`   | Input/output list price per 1M tokens                                                          |
 | `context` | Tokens in context / window size, and the percentage                                            |
 | `cost`    | Claude Code's `total_cost_usd`, which already includes subagents          |
