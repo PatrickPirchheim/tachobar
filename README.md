@@ -299,5 +299,5 @@ If tachobar saves you money or just a little guesswork, you can
 
 ## License
 
-[MIT](LICENSE) © DrFritzi. Third-party notices for the bundled crates are in
+[MIT](LICENSE) © Patrick Pirchheim. Third-party notices for the bundled crates are in
 [THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md) and in every release archive.

@@ -2,7 +2,7 @@
   "name": "tachobar",
   "description": "tachobar: a Claude Code status line with accurate costs in any currency",
   "owner": {
-    "name": "DrFritzi",
+    "name": "Patrick Pirchheim",
     "url": "https://github.com/PatrickPirchheim"
   },
   "plugins": [
