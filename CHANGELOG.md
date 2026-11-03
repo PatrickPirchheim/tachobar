@@ -6,6 +6,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.6]
+
+### Fixed
+
+- Claude Haiku 5.5 prompts over 100,000 tokens are priced at its higher
+  long-prompt rates.
+- The pricing supplement fills only the prices litellm leaves out, instead of
+  being ignored for any model litellm lists.
+
 ## [0.1.5]
 
 ### Fixed

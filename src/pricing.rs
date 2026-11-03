@@ -15,7 +15,8 @@ pub const LITELLM_URL: &str =
     "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json";
 
 /// Requests whose total input (fresh + cache reads + cache writes) exceeds this
-/// are billed at the long-context rates, when a model has them.
+/// are billed at the long-context rates, when a model has them and sets no
+/// `long_context_threshold_tokens` of its own.
 pub const LONG_CONTEXT_THRESHOLD: u64 = 200_000;
 
 /// Anthropic's published cache multipliers, used only when litellm lacks the
@@ -26,14 +27,25 @@ const CACHE_READ_RATIO: f64 = 0.1;
 
 const SNAPSHOT: &str = include_str!("../data/pricing-snapshot.json");
 
-/// Current models litellm may not list yet. litellm's entry wins once it exists.
+/// Prices litellm may not list yet. Fills only fields litellm leaves empty.
 const SUPPLEMENT: &str = include_str!("../data/pricing-supplement.json");
 
 pub fn add_supplement(models: &mut BTreeMap<String, ModelPrice>) {
-    let extra: BTreeMap<String, ModelPrice> =
+    let extra: BTreeMap<String, serde_json::Map<String, serde_json::Value>> =
         serde_json::from_str(SUPPLEMENT).expect("bundled pricing supplement is valid JSON");
-    for (k, v) in extra {
-        models.entry(k).or_insert(v);
+    for (k, fields) in extra {
+        let current = models.remove(&k).unwrap_or_default();
+        let serde_json::Value::Object(mut merged) =
+            serde_json::to_value(&current).expect("ModelPrice serializes")
+        else {
+            unreachable!("ModelPrice serializes to an object")
+        };
+        for (f, v) in fields {
+            merged.entry(f).or_insert(v);
+        }
+        let price = serde_json::from_value(merged.into())
+            .expect("bundled pricing supplement matches ModelPrice");
+        models.insert(k, price);
     }
 }
 
@@ -66,6 +78,10 @@ pub struct ModelPrice {
     pub cache_creation_input_token_cost_above_1hr_above_200k_tokens: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub cache_read_input_token_cost_above_200k_tokens: Option<f64>,
+    /// Prompt size above which the `_above_200k_tokens` prices apply, for
+    /// models whose long-prompt tier starts elsewhere (Haiku 5.5: 100k).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub long_context_threshold_tokens: Option<u64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub max_input_tokens: Option<u64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -185,14 +201,17 @@ pub struct Rates {
 }
 
 impl ModelPrice {
-    /// Rates for a request, picking the >200k tier when the prompt is that
-    /// long and the model has a long-context price. `None` if the base
+    /// Rates for a request, picking the long-prompt tier when the prompt is over
+    /// the model's threshold and it has a long-prompt price. `None` if the base
     /// input/output prices are missing.
     pub fn rates(&self, prompt_tokens: u64) -> Option<Rates> {
         let base_in = self.input_cost_per_token?;
         let base_out = self.output_cost_per_token?;
-        let long = prompt_tokens > LONG_CONTEXT_THRESHOLD
-            && self.input_cost_per_token_above_200k_tokens.is_some();
+        let threshold = self
+            .long_context_threshold_tokens
+            .unwrap_or(LONG_CONTEXT_THRESHOLD);
+        let long =
+            prompt_tokens > threshold && self.input_cost_per_token_above_200k_tokens.is_some();
         let (input, output, cw5, cw1h, cr) = if long {
             (
                 self.input_cost_per_token_above_200k_tokens
@@ -860,6 +879,36 @@ mod tests {
         };
         m.insert("claude-sonnet-5-5".to_string(), own.clone());
         add_supplement(&mut m);
-        assert_eq!(m["claude-sonnet-5-5"], own);
+        let p = &m["claude-sonnet-5-5"];
+        assert_eq!(p.input_cost_per_token, Some(9.0));
+        assert_eq!(p.output_cost_per_token, Some(9.0));
+        assert_eq!(p.cache_read_input_token_cost, Some(1e-7));
+    }
+
+    #[test]
+    fn haiku_5_5_long_prompt_tier_starts_above_100k() {
+        let mut m = BTreeMap::new();
+        m.insert(
+            "claude-haiku-5-5".to_string(),
+            ModelPrice {
+                input_cost_per_token: Some(1e-7),
+                output_cost_per_token: Some(5e-7),
+                cache_read_input_token_cost: Some(1e-8),
+                ..Default::default()
+            },
+        );
+        add_supplement(&mut m);
+        let p = &m["claude-haiku-5-5"];
+        let short = p.rates(100_000).unwrap();
+        assert_eq!(
+            (short.input, short.output, short.cache_read),
+            (1e-7, 5e-7, 1e-8)
+        );
+        let long = p.rates(100_001).unwrap();
+        assert_eq!(long.input, 5e-7);
+        assert_eq!(long.output, 2.5e-6);
+        assert_eq!(long.cache_write_5m, 6.25e-7);
+        assert_eq!(long.cache_write_1h, 1e-6);
+        assert_eq!(long.cache_read, 5e-8);
     }
 }
