@@ -14,10 +14,10 @@ setting. Work through these steps and report what you did.
    version, skip to step 3.
 
 2. **Install the binary** from the latest GitHub release of
-   `DrFritzi/tachobar`, using the installer for the user's OS. Show the user
+   `PatrickPirchheim/tachobar`, using the installer for the user's OS. Show the user
    the command and ask before running it.
    - macOS / Linux:
-     `curl --proto '=https' --tlsv1.2 -LsSf https://github.com/DrFritzi/tachobar/releases/latest/download/tachobar-installer.sh | sh`
+     `curl --proto '=https' --tlsv1.2 -LsSf https://github.com/PatrickPirchheim/tachobar/releases/latest/download/tachobar-installer.sh | sh`
    - Windows: do **not** use the `irm … | iex` script installer. Microsoft
      Defender blocks that command pattern. Instead, in PowerShell, download
      `tachobar-<arch>-pc-windows-msvc.zip` from the latest release
@@ -26,7 +26,7 @@ setting. Work through these steps and report what you did.
      it, then unpack it with `Expand-Archive` into
      `$env:LOCALAPPDATA\Programs\tachobar`. The README's Windows section has
      the exact commands.
-   - Alternative with a Rust toolchain: `cargo install --git https://github.com/DrFritzi/tachobar --locked`
+   - Alternative with a Rust toolchain: `cargo install --git https://github.com/PatrickPirchheim/tachobar --locked`
 
    The macOS/Linux installer and `cargo install` put `tachobar` in
    `~/.cargo/bin`; the Windows zip route puts it in

@@ -16,7 +16,7 @@ Every release archive has a GitHub build provenance attestation. To check
 that a download was built by this repository's release workflow:
 
 ```sh
-gh attestation verify tachobar-x86_64-unknown-linux-musl.tar.xz --repo DrFritzi/tachobar
+gh attestation verify tachobar-x86_64-unknown-linux-musl.tar.xz --repo PatrickPirchheim/tachobar
 ```
 
 ## What tachobar touches

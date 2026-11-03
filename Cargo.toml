@@ -4,10 +4,10 @@ version = "0.1.4"
 edition = "2021"
 rust-version = "1.85"
 description = "Cross-platform Claude Code status line with accurate costs (cache tiers, subagents) in any currency"
-authors = ["DrFritzi"]
+authors = ["Patrick Pirchheim"]
 license = "MIT"
-repository = "https://github.com/DrFritzi/tachobar"
-homepage = "https://github.com/DrFritzi/tachobar"
+repository = "https://github.com/PatrickPirchheim/tachobar"
+homepage = "https://github.com/PatrickPirchheim/tachobar"
 readme = "README.md"
 # Distributed as prebuilt binaries via GitHub releases, not crates.io.
 publish = false
