@@ -1,5 +1,5 @@
 {
-  "fetched_at": 1791207422,
+  "fetched_at": 1793698934,
   "models": {
     "claude-fable-5": {
       "input_cost_per_token": 0.00001,
@@ -38,6 +38,17 @@
       "cache_creation_input_token_cost_above_1hr": 2e-6,
       "cache_read_input_token_cost": 1e-7,
       "max_input_tokens": 200000
+    },
+    "claude-haiku-5-5": {
+      "input_cost_per_token": 1e-7,
+      "output_cost_per_token": 5e-7,
+      "cache_creation_input_token_cost": 1.25e-7,
+      "cache_creation_input_token_cost_above_1hr": 2e-7,
+      "cache_read_input_token_cost": 1e-8,
+      "max_input_tokens": 1000000,
+      "search_context_cost_per_query": {
+        "search_context_size_medium": 0.01
+      }
     },
     "claude-mythos-5": {
       "input_cost_per_token": 0.00001,
@@ -177,12 +188,7 @@
       "cache_creation_input_token_cost": 3.75e-6,
       "cache_creation_input_token_cost_above_1hr": 6e-6,
       "cache_read_input_token_cost": 3e-7,
-      "input_cost_per_token_above_200k_tokens": 6e-6,
-      "output_cost_per_token_above_200k_tokens": 0.0000225,
-      "cache_creation_input_token_cost_above_200k_tokens": 7.5e-6,
-      "cache_creation_input_token_cost_above_1hr_above_200k_tokens": 0.000012,
-      "cache_read_input_token_cost_above_200k_tokens": 6e-7,
-      "max_input_tokens": 1000000,
+      "max_input_tokens": 200000,
       "search_context_cost_per_query": {
         "search_context_size_medium": 0.01
       }
@@ -193,12 +199,7 @@
       "cache_creation_input_token_cost": 3.75e-6,
       "cache_creation_input_token_cost_above_1hr": 6e-6,
       "cache_read_input_token_cost": 3e-7,
-      "input_cost_per_token_above_200k_tokens": 6e-6,
-      "output_cost_per_token_above_200k_tokens": 0.0000225,
-      "cache_creation_input_token_cost_above_200k_tokens": 7.5e-6,
-      "cache_creation_input_token_cost_above_1hr_above_200k_tokens": 0.000012,
-      "cache_read_input_token_cost_above_200k_tokens": 6e-7,
-      "max_input_tokens": 1000000,
+      "max_input_tokens": 200000,
       "search_context_cost_per_query": {
         "search_context_size_medium": 0.01
       }
@@ -230,7 +231,7 @@
       "output_cost_per_token": 0.00001,
       "cache_creation_input_token_cost": 2.5e-6,
       "cache_creation_input_token_cost_above_1hr": 4e-6,
-      "cache_read_input_token_cost": 2e-7,
+      "cache_read_input_token_cost": 1e-7,
       "max_input_tokens": 1000000,
       "search_context_cost_per_query": {
         "search_context_size_medium": 0.01
